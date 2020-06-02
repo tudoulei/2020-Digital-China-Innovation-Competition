@@ -7,7 +7,7 @@
 
 ### 最终成绩
 
-![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/img/4.png)
+![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/raw/master/img/4.png)
 
 ### 思路
 
@@ -39,9 +39,9 @@ https://github.com/CQLLL/2020DCIC
 
 ### 渔船管理系统界面
 
-![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/img/1.png)
+![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/raw/master/img/1.png)
 
-![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/img/2.png)
+![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/raw/master/img/2.png)
 
-![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/img/3.png)
+![](https://github.com/tudoulei/2020-Digital-China-Innovation-Competition/raw/master/img/3.png)
 
