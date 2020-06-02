@@ -15,10 +15,9 @@ type_map_rev = {0: '拖网', 1: '围网', 2: '刺网'}
 
 from config import config
 config = config()
-# from config import config_chusai
-# config = config_chusai()
-feature_path = config.root_path+"/input/"
-basefeature_save_path = config.root_path+"/basefea/"
+
+feature_path = "./temp/input/"
+basefeature_save_path = "./temp/basefea/"
 os.makedirs(basefeature_save_path,exist_ok=1)
 
 def group_feature(df, key, target, aggs):   
@@ -41,28 +40,8 @@ def extract_feature(df, train):
     train = pd.merge(train, t, on='ship', how='left')
     t = group_feature(df, 'ship','v',['max','min','mean','std','skew','sum'])
     train = pd.merge(train, t, on='ship', how='left')
-    t = group_feature(df, 'ship','d_cos',['max','min','mean','std','skew','sum'])
+    t = group_feature(df, 'ship','d',['max','min','mean','std','skew','sum'])
     train = pd.merge(train, t, on='ship', how='left')
-
-    # new
-
-    t = group_feature(df, 'ship','v_diff',['max','min','mean','std','skew','sum'])
-    train = pd.merge(train, t, on='ship', how='left')
-    t = group_feature(df, 'ship','d_diff',['max','min','mean','std','skew','sum'])
-    train = pd.merge(train, t, on='ship', how='left')
-    t = group_feature(df, 'ship','dis_diff',['max','min','mean','std','skew','sum'])
-    train = pd.merge(train, t, on='ship', how='left')
-    t = group_feature(df, 'ship','dis_t_diff',['max','min','mean','std','skew','sum'])
-    train = pd.merge(train, t, on='ship', how='left')
-
-
-
-    #######
-
-
-
-
-
     train['x_max_x_min'] = train['x_max'] - train['x_min']
     train['y_max_y_min'] = train['y_max'] - train['y_min']
     train['y_max_x_min'] = train['y_max'] - train['x_min']
@@ -97,23 +76,14 @@ def extract_dt(df):
     df['weekday'] = df['time'].dt.weekday
     return df
 
-def main_base(mode="fusai"):
+def main_base():
     if config.use_only_test:
         test = pd.read_hdf(feature_path+'test.h5')
         test = extract_dt(test)
         test_label = test.drop_duplicates('ship')
         test_label = extract_feature(test, test_label)
         test_label.to_csv(basefeature_save_path+"test_label.csv",index=None)
-    elif mode == "chusai":
-        test = pd.read_hdf('./train_chusai.h5')
-        test = extract_dt(test)
-        test_label = test.drop_duplicates('ship')
-        test_label = extract_feature(test, test_label)
-        type_map = dict(zip(test_label['type'].unique(), np.arange(3)))
-        type_map_rev = {v:k for k,v in type_map.items()}
-        test_label['type'] = test_label['type'].map(type_map)
-        test_label.to_csv(basefeature_save_path+"train_label_chusai.csv",index=None)
-    elif mode == "fusai":
+    else:
         train = pd.read_hdf(feature_path+'train.h5')
         print(train.shape)
         print(feature_path,train.iloc[5])
@@ -138,6 +108,5 @@ def main_base(mode="fusai"):
         print(len(features), ','.join(features))
 
 if __name__ == "__main__":
-    main_base(mode="fusai")
-    main_base(mode="chusai")
+    main_base()
     pass

@@ -11,19 +11,14 @@ from scipy.misc import derivative
 alpha, gamma = (0.25,1)
 pd.set_option('display.max_columns', 100)
 warnings.filterwarnings('ignore')
-
 from config import config
 config = config()
-
-# from config import config_chusai
-# config = config_chusai()
-
 type_map_rev = {0: '拖网', 1: '围网', 2: '刺网'}
 
 model_result = {}
-feature_path = config.root_path+"/input/"
-bin_feature_save_path = config.root_path+"/binfea/"
-
+feature_path = "./temp/input_origin/"
+bin_feature_save_path = "./temp/binfea/"
+use_test = "testB"
 
 os.makedirs(bin_feature_save_path,exist_ok=True)
 
@@ -67,15 +62,11 @@ def get_bin(all_data):
     return data
 
 
-def main_bin(mode="chusai"):
-
+def main_bin():
     if config.use_only_test:
         test = pd.read_hdf(feature_path+'test.h5')
         all_data = test
-    if mode=="chusai":
-        train = pd.read_hdf('./train_chusai.h5')
-        get_bin(train).to_csv(bin_feature_save_path+"bin_feature_train_chusai.csv",index=None)
-    elif mode =="fusai":
+    else:
         train = pd.read_hdf(feature_path+'train.h5')
         get_bin(train).to_csv(bin_feature_save_path+"bin_feature_train.csv",index=None)
         test = pd.read_hdf(feature_path+'test.h5')
@@ -83,6 +74,5 @@ def main_bin(mode="chusai"):
    
 
 if __name__ == "__main__":
-    main_bin(mode="fusai")
-    main_bin(mode="chusai")
+    main_bin()
     pass
